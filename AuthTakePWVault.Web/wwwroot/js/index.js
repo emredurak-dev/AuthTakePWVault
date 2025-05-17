@@ -33,7 +33,6 @@ function initializeIndex(urls) {
         });
     }
 
-    // Şifre göster/gizle
     $(document).on('click', '.toggle-password', function () {
         const input = $(this).closest('td').find('input');
         const icon = $(this).find('i');
@@ -47,20 +46,16 @@ function initializeIndex(urls) {
         }
     });
 
-    // Şifre kopyalama
     $(document).on('click', '.copy-password', function() {
         const input = $(this).closest('td').find('input');
         const password = input.val();
         
-        // Geçici bir input elementi oluştur
         const tempInput = $('<input>');
         $('body').append(tempInput);
         tempInput.val(password).select();
         
         try {
-            // Şifreyi panoya kopyala
             document.execCommand('copy');
-            // Başarılı mesajı göster
             const icon = $(this).find('i');
             icon.removeClass('bi-clipboard').addClass('bi-clipboard-check');
             setTimeout(() => {
@@ -70,11 +65,9 @@ function initializeIndex(urls) {
             alert('Şifre kopyalanamadı!');
         }
         
-        // Geçici input elementini kaldır
         tempInput.remove();
     });
 
-    // Yeni şifre ekleme
     $('#savePassword').on('click', function () {
         const data = {
             siteName: $('#siteName').val(),
@@ -111,7 +104,6 @@ function initializeIndex(urls) {
         });
     });
 
-    // Şifre düzenleme modalını aç
     $(document).on('click', '.edit-password', function () {
         const row = $(this).closest('tr');
         const id = row.data('id');
@@ -127,7 +119,6 @@ function initializeIndex(urls) {
         $('#editPasswordModal').modal('show');
     });
 
-    // Şifre güncelleme
     $('#updatePassword').on('click', function () {
         const data = {
             id: $('#editId').val(),
@@ -164,7 +155,6 @@ function initializeIndex(urls) {
         });
     });
 
-    // Şifre silme
     $(document).on('click', '.delete-password', function () {
         if (confirm('Bu şifreyi silmek istediğinizden emin misiniz?')) {
             const id = $(this).closest('tr').data('id');
@@ -187,7 +177,6 @@ function initializeIndex(urls) {
         }
     });
 
-    // Rastgele şifre üretme
     function generateRandomPassword(options) {
         const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const lowercase = 'abcdefghijklmnopqrstuvwxyz';
@@ -202,13 +191,10 @@ function initializeIndex(urls) {
         if (options.useNumbers) chars += numbers;
         if (options.useSymbols) chars += symbols;
         
-        // En az bir karakter seçilmemişse varsayılan olarak küçük harfleri kullan
         if (chars === '') chars = lowercase;
         
-        // Şifre uzunluğu kontrolü
         const length = Math.min(Math.max(options.length, 8), 32);
         
-        // Şifre oluşturma
         for (let i = 0; i < length; i++) {
             const randomIndex = Math.floor(Math.random() * chars.length);
             password += chars[randomIndex];
@@ -217,7 +203,6 @@ function initializeIndex(urls) {
         return password;
     }
     
-    // Rastgele şifre üretme butonu tıklama olayı
     $('#generatePassword').on('click', function() {
         const options = {
             useUppercase: $('#useUppercase').is(':checked'),
@@ -231,6 +216,5 @@ function initializeIndex(urls) {
         $('#sitePassword').val(password);
     });
 
-    // Sayfa yüklendiğinde şifreleri yükle
     loadPasswords();
 } 

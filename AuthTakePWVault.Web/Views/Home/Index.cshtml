@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Şifre Kasası";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Şifre Kasam</h2>
+        </div>
+        <div class="col text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPasswordModal">
+                Yeni Şifre Ekle
+            </button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="passwordsTable">
+            <thead>
+                <tr>
+                    <th>Site Adı</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Şifre</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="addPasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Şifre Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addPasswordForm">
+                    <div class="mb-3">
+                        <label for="siteName" class="form-label">Site Adı</label>
+                        <input type="text" class="form-control" id="siteName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="siteUsername" class="form-label">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="siteUsername" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sitePassword" class="form-label">Şifre</label>
+                        <input type="text" class="form-control" id="sitePassword" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="savePassword">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editPasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Şifre Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPasswordForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editSiteName" class="form-label">Site Adı</label>
+                        <input type="text" class="form-control" id="editSiteName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSiteUsername" class="form-label">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="editSiteUsername" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSitePassword" class="form-label">Şifre</label>
+                        <input type="text" class="form-control" id="editSitePassword" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" id="updatePassword">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/index.js"></script>
+    <script>
+        $(document).ready(function () {
+            const urls = {
+                getPasswords: '@Url.Action("GetPasswords", "Home")',
+                addPassword: '@Url.Action("AddPassword", "Home")',
+                updatePassword: '@Url.Action("UpdatePassword", "Home")',
+                deletePassword: '@Url.Action("DeletePassword", "Home")'
+            };
+            
+            initializeIndex(urls);
+        });
+    </script>
+}

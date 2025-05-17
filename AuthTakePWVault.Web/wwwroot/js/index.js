@@ -15,6 +15,9 @@ function initializeIndex(urls) {
                         '<button class="btn btn-outline-secondary toggle-password" type="button">' +
                         '<i class="bi bi-eye"></i>' +
                         '</button>' +
+                        '<button class="btn btn-outline-secondary copy-password" type="button" title="Şifreyi Kopyala">' +
+                        '<i class="bi bi-clipboard"></i>' +
+                        '</button>' +
                         '</div>' +
                         '</td>' +
                         '<td>' +
@@ -42,6 +45,33 @@ function initializeIndex(urls) {
             input.attr('type', 'password');
             icon.removeClass('bi-eye-slash').addClass('bi-eye');
         }
+    });
+
+    // Şifre kopyalama
+    $(document).on('click', '.copy-password', function() {
+        const input = $(this).closest('td').find('input');
+        const password = input.val();
+        
+        // Geçici bir input elementi oluştur
+        const tempInput = $('<input>');
+        $('body').append(tempInput);
+        tempInput.val(password).select();
+        
+        try {
+            // Şifreyi panoya kopyala
+            document.execCommand('copy');
+            // Başarılı mesajı göster
+            const icon = $(this).find('i');
+            icon.removeClass('bi-clipboard').addClass('bi-clipboard-check');
+            setTimeout(() => {
+                icon.removeClass('bi-clipboard-check').addClass('bi-clipboard');
+            }, 1500);
+        } catch (err) {
+            alert('Şifre kopyalanamadı!');
+        }
+        
+        // Geçici input elementini kaldır
+        tempInput.remove();
     });
 
     // Yeni şifre ekleme
@@ -155,6 +185,50 @@ function initializeIndex(urls) {
                 }
             });
         }
+    });
+
+    // Rastgele şifre üretme
+    function generateRandomPassword(options) {
+        const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        const numbers = '0123456789';
+        const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+        
+        let chars = '';
+        let password = '';
+        
+        if (options.useUppercase) chars += uppercase;
+        if (options.useLowercase) chars += lowercase;
+        if (options.useNumbers) chars += numbers;
+        if (options.useSymbols) chars += symbols;
+        
+        // En az bir karakter seçilmemişse varsayılan olarak küçük harfleri kullan
+        if (chars === '') chars = lowercase;
+        
+        // Şifre uzunluğu kontrolü
+        const length = Math.min(Math.max(options.length, 8), 32);
+        
+        // Şifre oluşturma
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * chars.length);
+            password += chars[randomIndex];
+        }
+        
+        return password;
+    }
+    
+    // Rastgele şifre üretme butonu tıklama olayı
+    $('#generatePassword').on('click', function() {
+        const options = {
+            useUppercase: $('#useUppercase').is(':checked'),
+            useLowercase: $('#useLowercase').is(':checked'),
+            useNumbers: $('#useNumbers').is(':checked'),
+            useSymbols: $('#useSymbols').is(':checked'),
+            length: parseInt($('#passwordLength').val())
+        };
+        
+        const password = generateRandomPassword(options);
+        $('#sitePassword').val(password);
     });
 
     // Sayfa yüklendiğinde şifreleri yükle

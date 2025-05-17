@@ -47,9 +47,37 @@
                         <label for="siteUsername" class="form-label">Kullanıcı Adı</label>
                         <input type="text" class="form-control" id="siteUsername" required>
                     </div>
+
                     <div class="mb-3">
                         <label for="sitePassword" class="form-label">Şifre</label>
-                        <input type="text" class="form-control" id="sitePassword" required>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="sitePassword" required>
+                            <button class="btn btn-outline-secondary" type="button" id="generatePassword">
+                                Rastgele Şifre
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="useUppercase" checked>
+                                <label class="form-check-label" for="useUppercase">Büyük Harf</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="useLowercase" checked>
+                                <label class="form-check-label" for="useLowercase">Küçük Harf</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="useNumbers" checked>
+                                <label class="form-check-label" for="useNumbers">Sayılar</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="useSymbols" checked>
+                                <label class="form-check-label" for="useSymbols">Semboller</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-control" type="number" id="passwordLength" value="12" min="8" max="32" style="width: 80px;">
+                                <label class="form-check-label" for="passwordLength">Uzunluk</label>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -103,7 +131,7 @@
                 updatePassword: '@Url.Action("UpdatePassword", "Home")',
                 deletePassword: '@Url.Action("DeletePassword", "Home")'
             };
-            
+
             initializeIndex(urls);
         });
     </script>
